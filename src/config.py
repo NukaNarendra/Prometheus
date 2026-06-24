@@ -32,8 +32,8 @@ class ModelConfig(BaseSettings):
 
     models: Dict[str, Dict[str, Any]] = {
         "lead_agent": {
-            "dev": "nvidia/nemotron-3-super-120b-a12b",
-            "prod": "nvidia/nemotron-3-ultra-550b-a55b",
+            "dev": "ai-nemotron-3-super-120b-a12b",
+            "prod": "ai-nemotron-3-ultra-550b-a55b",
             "enable_thinking": True,
             "temperature": 0.1,  # Lowered to prevent <unk> token soup!
             "max_tokens": 8192,
@@ -41,8 +41,8 @@ class ModelConfig(BaseSettings):
             "top_p": 0.95,
         },
         "subagent": {
-            "dev": "nvidia/nemotron-3-super-120b-a12b",
-            "prod": "nvidia/nemotron-3-super-120b-a12b",
+            "dev": "ai-nemotron-3-super-120b-a12b",
+            "prod": "ai-nemotron-3-super-120b-a12b",
             "enable_thinking": False,
             "temperature": 0.2,
             "max_tokens": 4096,
@@ -50,8 +50,8 @@ class ModelConfig(BaseSettings):
             "top_p": 0.95,
         },
         "scorer": {
-            "dev": "nvidia/nemotron-3-super-120b-a12b",
-            "prod": "nvidia/nemotron-3-super-120b-a12b",
+            "dev": "ai-nemotron-3-super-120b-a12b",
+            "prod": "ai-nemotron-3-super-120b-a12b",
             "enable_thinking": True,
             "temperature": 0.1,
             "max_tokens": 2048,
