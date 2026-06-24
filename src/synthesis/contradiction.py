@@ -1,7 +1,7 @@
 import os
 import json
 import asyncio
-from typing import List, Dict, Any, TypeVar, Type, Callable, Awaitable, Set
+from typing import List, Dict, Any, TypeVar, Type, Callable, Awaitable, Set, Tuple
 from pathlib import Path
 from pydantic import BaseModel, Field, ValidationError
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
