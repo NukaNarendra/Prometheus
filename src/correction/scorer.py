@@ -77,18 +77,12 @@ class EvidenceScorerClient:
         self.role_config = models.get_model_settings("scorer")
         self.retry_strategy = ScorerRetryStrategy()
 
-        chat_kwargs = {}
-        if self.role_config.get("enable_thinking"):
-            chat_kwargs["enable_thinking"] = True
-
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
             temperature=self.role_config.get("temperature", 0.1),
             top_p=self.role_config.get("top_p", 0.90),
-            max_completion_tokens=self.role_config.get("max_tokens", 4096),
-            reasoning_budget=self.role_config.get("reasoning_budget", 2048),
-            chat_template_kwargs=chat_kwargs
+            max_tokens=self.role_config.get("max_tokens", 4096)
         )
 
     async def generate_evaluation(self, system_prompt: str, user_prompt: str) -> EvidenceEvaluation:

@@ -48,18 +48,12 @@ class SynthesisClient:
         self.role_config = models.get_model_settings("subagent")
         self.retry_strategy = SubagentRetryStrategy()
 
-        chat_kwargs = {}
-        if self.role_config.get("enable_thinking"):
-            chat_kwargs["enable_thinking"] = True
-
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
             temperature=self.role_config.get("temperature", 0.4),
             top_p=self.role_config.get("top_p", 0.95),
-            max_completion_tokens=self.role_config.get("max_tokens", 8192),
-            reasoning_budget=self.role_config.get("reasoning_budget", 0),
-            chat_template_kwargs=chat_kwargs
+            max_tokens=self.role_config.get("max_tokens", 8192)
         )
 
     def _extract_json(self, text: str) -> str:

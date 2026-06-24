@@ -102,18 +102,12 @@ class NVIDIAAgentClient:
         self.role_config = models.get_model_settings(role)
         self.retry_strategy = RetryStrategy()
 
-        chat_kwargs = {}
-        if self.role_config.get("enable_thinking"):
-            chat_kwargs["enable_thinking"] = True
-
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
             temperature=self.role_config.get("temperature", 1.0),
             top_p=self.role_config.get("top_p", 0.95),
-            max_tokens=self.role_config.get("max_tokens", 16384),
-            reasoning_budget=self.role_config.get("reasoning_budget", 16384),
-            chat_template_kwargs=chat_kwargs
+            max_tokens=self.role_config.get("max_tokens", 8192)
         )
 
     async def generate_text_stream(self, system_prompt: str, user_prompt: str) -> str:

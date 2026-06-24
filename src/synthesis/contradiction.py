@@ -52,7 +52,7 @@ class SemanticFilter:
 
     @classmethod
     def filter_candidates(cls, claims: List[Dict[str, str]], threshold: float = 0.15) -> List[
-        tuple[Dict[str, str], Dict[str, str]]]:
+        Tuple[Dict[str, str], Dict[str, str]]]:
         candidates = []
         n = len(claims)
         for i in range(n):
@@ -86,18 +86,12 @@ class ContradictionClient:
         self.role_config = models.get_model_settings("lead_agent")
         self.retry_strategy = ContradictionRetryStrategy()
 
-        chat_kwargs = {}
-        if self.role_config.get("enable_thinking"):
-            chat_kwargs["enable_thinking"] = True
-
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
             temperature=0.1,
             top_p=0.90,
-            max_completion_tokens=8192,
-            reasoning_budget=2048,
-            chat_template_kwargs=chat_kwargs
+            max_tokens=8192
         )
 
     def _extract_json(self, text: str) -> str:
@@ -137,7 +131,7 @@ class ContradictionEngine:
         api_key = os.environ.get("NVIDIA_API_KEY", "")
         self.client = ContradictionClient(api_key)
 
-    def _build_prompts(self, candidate_pairs: List[tuple[Dict[str, str], Dict[str, str]]]) -> tuple[str, str]:
+    def _build_prompts(self, candidate_pairs: List[Tuple[Dict[str, str], Dict[str, str]]]) -> tuple[str, str]:
         system_prompt = (
             "You are a rigorous scientific contradiction detector. "
             "You will be given pairs of scientific claims. Your task is to identify pairs "

@@ -52,18 +52,12 @@ class ReportClient:
         self.role_config = models.get_model_settings("lead_agent")
         self.retry_strategy = ReportRetryStrategy()
 
-        chat_kwargs = {}
-        if self.role_config.get("enable_thinking"):
-            chat_kwargs["enable_thinking"] = True
-
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
             temperature=0.3,
             top_p=0.95,
-            max_completion_tokens=16384,
-            reasoning_budget=4096,
-            chat_template_kwargs=chat_kwargs
+            max_tokens=8192
         )
 
     async def generate_markdown(self, system_prompt: str, user_prompt: str, stream_callback: Optional[Callable[[str], None]] = None) -> str:
