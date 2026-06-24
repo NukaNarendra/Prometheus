@@ -71,18 +71,13 @@ class LLMClient:
         self.role_config = models.get_model_settings(role)
         self.retry_strategy = EvaluationRetryStrategy()
 
-        chat_kwargs = {}
-        if self.role_config.get("enable_thinking"):
-            chat_kwargs["enable_thinking"] = True
-
+        # Removed reasoning_budget and chat_template_kwargs to prevent 400 Bad Request
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=api_key,
             temperature=self.role_config.get("temperature", 0.1),
             top_p=self.role_config.get("top_p", 0.95),
-            max_completion_tokens=self.role_config.get("max_tokens", 8192),
-            reasoning_budget=self.role_config.get("reasoning_budget", 2048),
-            chat_template_kwargs=chat_kwargs
+            max_tokens=self.role_config.get("max_tokens", 8192)
         )
 
     def _extract_json(self, text: str) -> str:
