@@ -107,7 +107,7 @@ class NVIDIAAgentClient:
             api_key=self.api_key,
             temperature=self.role_config.get("temperature", 1.0),
             top_p=self.role_config.get("top_p", 0.95),
-            max_tokens=self.role_config.get("max_tokens", 8192)
+            max_tokens=self.role_config.get("max_tokens", 4096)
         )
 
     async def generate_text_stream(self, system_prompt: str, user_prompt: str) -> str:

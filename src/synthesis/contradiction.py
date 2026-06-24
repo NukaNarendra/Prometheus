@@ -89,9 +89,9 @@ class ContradictionClient:
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
-            temperature=0.1,
-            top_p=0.90,
-            max_tokens=8192
+            temperature=self.role_config.get("temperature", 0.2),
+            top_p=self.role_config.get("top_p", 0.95),
+            max_tokens=self.role_config.get("max_tokens", 4096)
         )
 
     def _extract_json(self, text: str) -> str:

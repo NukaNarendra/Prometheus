@@ -55,9 +55,9 @@ class ReportClient:
         self.client = ChatNVIDIA(
             model=self.role_config["model"],
             api_key=self.api_key,
-            temperature=0.3,
-            top_p=0.95,
-            max_tokens=8192
+            temperature=self.role_config.get("temperature", 0.2),
+            top_p=self.role_config.get("top_p", 0.95),
+            max_tokens=self.role_config.get("max_tokens", 4096)
         )
 
     async def generate_markdown(self, system_prompt: str, user_prompt: str, stream_callback: Optional[Callable[[str], None]] = None) -> str:
