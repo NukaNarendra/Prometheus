@@ -4,7 +4,7 @@ pydantic-settings==2.2.1
 aiohttp==3.9.3
 langchain-nvidia-ai-endpoints>=0.2.0
 langchain-core>=0.2.0
-chromadb==0.4.24
+chromadb>=0.5.0
 sentence-transformers==2.5.1
 rank-bm25==0.2.2
 neo4j==5.18.0
