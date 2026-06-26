@@ -133,17 +133,13 @@ class PrometheusDashboard:
 
                 st.success(
                     "Research Complete! The system has successfully verified citations and checked for contradictions. 🎉")
+                await asyncio.sleep(0.25)  # CRITICAL: Allows LangChain's aiohttp sessions to close gracefully
 
             except Exception as e:
                 st.error(f"Pipeline crashed: {str(e)}")
 
-        # CRITICAL FIX: Explicitly manage the event loop so Streamlit doesn't crash!
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        try:
-            loop.run_until_complete(_run_pipeline())
-        finally:
-            loop.close()
+        # CRITICAL FIX: Use asyncio.run directly to prevent Event Loop destruction conflicts
+        asyncio.run(_run_pipeline())
 
     def run(self) -> None:
         self.setup_page()

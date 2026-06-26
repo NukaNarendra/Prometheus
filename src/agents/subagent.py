@@ -54,8 +54,11 @@ class SynthesisClient:
             temperature=1,
             top_p=0.95,
             max_tokens=16384,
-            reasoning_budget=16384,
-            chat_template_kwargs={"enable_thinking": True}
+            timeout=600,
+            model_kwargs={
+                "reasoning_budget": 4096,
+                "chat_template_kwargs": {"enable_thinking": True}
+            }
         )
 
     def _extract_json(self, text: str) -> str:
