@@ -78,7 +78,7 @@ class EvidenceScorerClient:
         self.retry_strategy = ScorerRetryStrategy()
 
         self.client = ChatNVIDIA(
-            model="nvidia/nemotron-3-ultra-550b-a55b",
+            model="nvidia/nemotron-3-super-120b-a12b",
             api_key=self.api_key,
             temperature=1,
             top_p=0.95,

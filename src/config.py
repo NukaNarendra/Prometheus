@@ -41,8 +41,8 @@ class ModelConfig(BaseSettings):
             "top_p": 0.95,
         },
         "subagent": {
-            "dev": "nvidia/nemotron-3-ultra-550b-a55b",
-            "prod": "nvidia/nemotron-3-ultra-550b-a55b",
+            "dev": "nvidia/nemotron-3-super-120b-a12b",
+            "prod": "nvidia/nemotron-3-super-120b-a12b",
             "enable_thinking": True,
             "temperature": 1.0,
             "max_tokens": 16384,
@@ -50,8 +50,8 @@ class ModelConfig(BaseSettings):
             "top_p": 0.95,
         },
         "scorer": {
-            "dev": "nvidia/nemotron-3-ultra-550b-a55b",
-            "prod": "nvidia/nemotron-3-ultra-550b-a55b",
+            "dev": "nvidia/nemotron-3-super-120b-a12b",
+            "prod": "nvidia/nemotron-3-super-120b-a12b",
             "enable_thinking": True,
             "temperature": 1.0,
             "max_tokens": 16384,
