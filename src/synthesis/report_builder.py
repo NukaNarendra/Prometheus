@@ -53,9 +53,9 @@ class ReportClient:
         self.retry_strategy = ReportRetryStrategy()
 
         self.client = ChatNVIDIA(
-            model="nvidia/nemotron-3-super-120b-a12b",
+            model="nvidia/nemotron-3-ultra-550b-a55b",
             api_key=self.api_key,
-            temperature=1,
+            temperature=0.2,
             top_p=0.95,
             max_tokens=16384,
             timeout=600,
@@ -106,7 +106,8 @@ class DataAggregator:
             output.append(f"Synthesis: {finding.raw_synthesis}")
             output.append("Key Evidence:")
             for claim in finding.key_claims:
-                output.append(f"- {claim.get('claim')} [Source: {claim.get('paper_id')}]")
+                short_id = claim.get('paper_id', 'Unknown')[:8]
+                output.append(f"- {claim.get('claim')} [Source: {short_id}]")
             output.append("\n")
         return "\n".join(output)
 
@@ -117,9 +118,11 @@ class DataAggregator:
 
         output = ["### Detected Scientific Conflicts"]
         for idx, conflict in enumerate(analysis.conflict_pairs):
+            short_a = conflict.paper_id_a[:8]
+            short_b = conflict.paper_id_b[:8]
             output.append(f"Conflict {idx + 1} (Severity: {conflict.severity.upper()}):")
-            output.append(f"- Paper {conflict.paper_id_a} claims: {conflict.claim_a}")
-            output.append(f"- Paper {conflict.paper_id_b} claims: {conflict.claim_b}")
+            output.append(f"- Paper {short_a} claims: {conflict.claim_a}")
+            output.append(f"- Paper {short_b} claims: {conflict.claim_b}")
             output.append(f"- Analysis: {conflict.conflict_description}\n")
         return "\n".join(output)
 
@@ -143,7 +146,7 @@ class ReportBuilderOrchestrator:
             "based on the findings gathered by your parallel subagents.\n"
             "Rules:\n"
             "1. Use standard Markdown formatting with clear H1, H2, H3 headers.\n"
-            "2. You MUST cite claims inline using the bracket format [PMID: 12345] matching the source IDs provided.\n"
+            "2. You MUST cite claims inline using the bracket format [Source: 12345678] matching the short 8-character source IDs provided.\n"
             "3. You MUST dedicate a specific section to 'Contradictions and Conflicting Evidence' and explicitly state where papers disagree based on the conflict data.\n"
             "4. Do not invent or hallucinate citations. Only use the ones provided in the text.\n"
             "5. Begin with a powerful Executive Summary."
