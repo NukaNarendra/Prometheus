@@ -32,25 +32,31 @@ class ModelConfig(BaseSettings):
 
     models: Dict[str, Dict[str, Any]] = {
         "lead_agent": {
-            "dev": "ai-llama-3_3-70b-instruct",
-            "prod": "ai-llama-3_3-70b-instruct",
-            "temperature": 0.2,
-            "max_tokens": 4096,
+            "dev": "nvidia/nemotron-3-ultra-550b-a55b",
+            "prod": "nvidia/nemotron-3-ultra-550b-a55b",
+            "enable_thinking": True,
+            "temperature": 1.0,
+            "max_tokens": 16384,
+            "reasoning_budget": 16384,
             "top_p": 0.95,
         },
         "subagent": {
-            "dev": "ai-llama-3_3-70b-instruct",
-            "prod": "ai-llama-3_3-70b-instruct",
-            "temperature": 0.1,
-            "max_tokens": 4096,
+            "dev": "nvidia/nemotron-3-ultra-550b-a55b",
+            "prod": "nvidia/nemotron-3-ultra-550b-a55b",
+            "enable_thinking": True,
+            "temperature": 1.0,
+            "max_tokens": 16384,
+            "reasoning_budget": 16384,
             "top_p": 0.95,
         },
         "scorer": {
-            "dev": "ai-llama-3_3-70b-instruct",
-            "prod": "ai-llama-3_3-70b-instruct",
-            "temperature": 0.1,
-            "max_tokens": 2048,
-            "top_p": 0.90,
+            "dev": "nvidia/nemotron-3-ultra-550b-a55b",
+            "prod": "nvidia/nemotron-3-ultra-550b-a55b",
+            "enable_thinking": True,
+            "temperature": 1.0,
+            "max_tokens": 16384,
+            "reasoning_budget": 16384,
+            "top_p": 0.95,
         },
     }
 
@@ -59,8 +65,10 @@ class ModelConfig(BaseSettings):
         model_name = role_config.get(self.mode, role_config.get("dev"))
         return {
             "model": model_name,
-            "temperature": role_config.get("temperature", 0.2),
-            "max_tokens": role_config.get("max_tokens", 4096),
+            "enable_thinking": role_config.get("enable_thinking", True),
+            "temperature": role_config.get("temperature", 1.0),
+            "max_tokens": role_config.get("max_tokens", 16384),
+            "reasoning_budget": role_config.get("reasoning_budget", 16384),
             "top_p": role_config.get("top_p", 0.95)
         }
 

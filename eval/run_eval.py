@@ -71,13 +71,14 @@ class LLMClient:
         self.role_config = models.get_model_settings(role)
         self.retry_strategy = EvaluationRetryStrategy()
 
-        # Removed reasoning_budget and chat_template_kwargs to prevent 400 Bad Request
         self.client = ChatNVIDIA(
-            model=self.role_config["model"],
+            model="nvidia/nemotron-3-ultra-550b-a55b",
             api_key=api_key,
-            temperature=self.role_config.get("temperature", 0.1),
-            top_p=self.role_config.get("top_p", 0.95),
-            max_tokens=self.role_config.get("max_tokens", 8192)
+            temperature=1,
+            top_p=0.95,
+            max_tokens=16384,
+            reasoning_budget=16384,
+            chat_template_kwargs={"enable_thinking": True}
         )
 
     def _extract_json(self, text: str) -> str:
