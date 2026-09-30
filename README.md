@@ -1,336 +1,187 @@
-# 🧬 Prometheus: Autonomous Multi-Agent Research Engine
+<div align="center">
 
-Prometheus is a frontier-grade, multi-agent Retrieval-Augmented Generation (RAG) architecture built to autonomously execute, evaluate, and synthesize deep academic research.
+# 🛡️ PROJECT PROMETHEUS
+**CLASSIFIED // CLEARANCE LEVEL: OMEGA**  
+*Autonomous Multi-Agent Biomedical Research Engine*
 
-Designed to overcome the limitations of standard monolithic RAG systems—which often struggle with complex reasoning and hallucinate when faced with contradictory evidence—Prometheus leverages parallel subagents, hybrid retrieval, and an LLM-powered Contradiction Engine mapped via a Neo4j Citation Graph.
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![NVIDIA Nemotron](https://img.shields.io/badge/NVIDIA-Nemotron_550B-76B900.svg?style=for-the-badge&logo=nvidia&logoColor=white)](https://build.nvidia.com/)
+[![ChromaDB](https://img.shields.io/badge/Vector-ChromaDB-FD5C46.svg?style=for-the-badge)](https://www.trychroma.com/)
+[![Neo4j](https://img.shields.io/badge/Graph-Neo4j-008CC1.svg?style=for-the-badge&logo=neo4j&logoColor=white)](https://neo4j.com/)
+[![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Security: Pass](https://img.shields.io/badge/Security-Audited-success.svg?style=for-the-badge)](https://github.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
----
-
-# ✨ Key Features
-
-## 🤖 Multi-Agent Orchestration
-
-A Lead Agent breaks down complex queries into mutually exclusive sub-tasks, deploying asynchronous Parallel Subagents to investigate each angle independently.
-
-## 🔄 Corrective RAG (CRAG) & Self-RAG
-
-A dedicated Evidence Scorer evaluates every claim made by the subagents. If confidence falls below the threshold, it autonomously refines search keywords and triggers a retrieval retry loop.
-
-## 🔍 Hybrid Retrieval Pipeline
-
-Combines dense vector similarity (ChromaDB + sentence-transformers) with sparse keyword matching (BM25Okapi) and Reciprocal Rank Fusion (RRF) for superior document recall.
-
-## 🕸️ Graph-Based Contradiction Detection
-
-Maps claims and paper citations to a Neo4j Graph Database. An LLM Contradiction Engine cross-examines nodes to identify, flag, and resolve conflicting scientific evidence before final synthesis.
-
-## 📈 Automated Evaluation Engine
-
-Includes an LLM-as-a-Judge benchmarking suite (`run_eval.py`) that mathematically evaluates the performance of the multi-agent architecture against a standard single-agent RAG baseline.
-
-## 🎥 Live Streaming UI
-
-A fully responsive Streamlit dashboard visualizes the agentic workflow, confidence scores, retrieval evidence, contradiction analysis, and streams the final synthesized report in real time.
+</div>
 
 ---
 
-# 🏗️ System Architecture
+## 📑 DECLASSIFIED BRIEFING
 
-```text
-User Query
-    │
-    ▼
-Lead Agent (Task Decomposition)
-    │
-    ├── Research Angle 1
-    ├── Research Angle 2
-    ├── Research Angle 3
-    └── Research Angle 4+
-            │
-            ▼
-     Parallel Subagents
-            │
-            ▼
- Hybrid Retrieval Engine
-(Dense + Sparse + RRF)
-            │
-            ▼
- Evidence Scorer (CRAG)
-            │
-     ┌──────┴──────┐
-     │             │
- High Confidence  Low Confidence
-     │             │
-     │       Retrieval Retry Loop
-     │             │
-     └──────┬──────┘
-            ▼
-      Citation Graph
-         (Neo4j)
-            │
-            ▼
- Contradiction Engine
-            │
-            ▼
-   Report Synthesis Agent
-            │
-            ▼
- Final Research Report
+**Project Prometheus** is a frontier-grade, asynchronous multi-agent AI architecture engineered to autonomously process, evaluate, cross-reference, and synthesize complex scientific and biomedical literature. 
+
+Designed to overcome the critical failure modes of traditional Retrieval-Augmented Generation (RAG) systems—specifically **Contradiction Blindness**, **Loss of Lexical Precision**, **Hallucination**, and **Token Degeneration**—Prometheus deploys a distributed "Lead-Worker" topology. It leverages a dual-tier Mixture-of-Experts (MoE) LLM strategy, a mathematically fused hybrid retrieval pipeline, and a Neo4j-backed Contradiction Engine to deliver academic-grade, verifiable intelligence.
+
+---
+
+## 🏗️ SYSTEM TOPOLOGY & ARCHITECTURE
+
+The following flowchart illustrates the autonomous multi-agent operational matrix, from user query ingestion to final synthesis.
+
+```mermaid
+graph TD
+    %% Styling
+    classDef user fill:#FF4B4B,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef lead fill:#76B900,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef worker fill:#444,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef db fill:#008CC1,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef logic fill:#E2A829,stroke:#fff,stroke-width:2px,color:#fff;
+
+    A[User Request: Streamlit UI]:::user -->|Complex Biomedical Query| B[Lead Agent: Nemotron 550B]:::lead
+    B -->|MECE Task Decomposition| C[Async Orchestrator]:::logic
+    
+    subgraph "Phase 2: Parallel CRAG Execution Matrix"
+        C --> D1[Subagent 1]:::worker
+        C --> D2[Subagent 2]:::worker
+        C --> D3[Subagent N]:::worker
+        
+        D1 & D2 & D3 -->|Hybrid Search| E[(ChromaDB + BM25<br>Reciprocal Rank Fusion)]:::db
+        D1 & D2 & D3 -->|Extract & Ground| F{Self-RAG Scorer}:::logic
+        
+        F -->|Score < 0.65| G[Rewire & Retry Query<br>Max 3x]:::logic
+        G -.->|Re-query| E
+    end
+
+    F -->|Score >= 0.65| H[Persist Findings Artifacts]:::db
+    
+    subgraph "Phase 3: The Merge Point & Synthesis"
+        H --> I[(Neo4j Citation Graph)]:::db
+        H --> J{Contradiction Engine<br>Jaccard Filter + LLM}:::logic
+        I & J --> K[Lead Agent Report Builder]:::lead
+        K -->|8-Char Hash Truncation & Temp = 0.2| L[Streamlit Live Markdown Output]:::user
+    end
 ```
 
 ---
 
-# 🔬 Research Workflow
+## 📡 OPERATIONAL SEQUENCE
 
-### 1. Query Decomposition
+The precise sequence of asynchronous operations ensuring hallucination-free generation and rate-limit compliance:
 
-The Lead Agent analyzes the user query and creates a structured JSON research plan containing multiple independent investigation angles.
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant UI as Streamlit Web Interface
+    participant Lead as Lead Agent (550B)
+    participant Orch as Orchestrator (Async)
+    participant Sub as Parallel Subagents (120B)
+    participant DB as Hybrid Retrieval
+    participant Scorer as CRAG Scorer (120B)
+    participant CE as Contradiction Engine
 
-### 2. Parallel Investigation
+    User->>UI: Submit high-stakes query
+    UI->>Lead: Initiate Directive
+    Lead->>Lead: Decompose into 4 MECE tasks
+    Lead->>Orch: Dispatch task JSON array
+    
+    rect rgb(40, 44, 52)
+    Note right of Orch: Concurrent Execution Loop (Semaphore Capped)
+    loop For Each Subagent Task
+        Orch->>Sub: Initialize Worker
+        Sub->>DB: Execute Dense + Sparse Fusion Search
+        DB-->>Sub: Return Top-K Ranked Documents
+        Sub->>Scorer: Validate Grounding (0.0 - 1.0)
+        alt Score < 0.65
+            Scorer->>Sub: Trigger Rewrite & Retry
+        end
+        Sub-->>Orch: Persist Validated JSON Findings
+    end
+    end
 
-Multiple subagents simultaneously retrieve, analyze, and summarize evidence from the local corpus.
-
-### 3. Evidence Validation
-
-The Evidence Scorer evaluates evidence quality, relevance, and citation support.
-
-### 4. Corrective Retrieval
-
-If evidence confidence is insufficient, the system automatically reformulates queries and performs additional retrieval.
-
-### 5. Citation Graph Construction
-
-Claims and source papers are mapped into a Neo4j knowledge graph.
-
-### 6. Contradiction Analysis
-
-The Contradiction Engine identifies conflicting claims, evaluates severity levels, and generates resolution summaries.
-
-### 7. Report Generation
-
-The synthesis module compiles validated findings into a structured, citation-backed research report.
+    Orch->>CE: Merge all JSON findings
+    CE->>CE: Run Jaccard Similarity Filter
+    CE->>CE: LLM identifies High/Med/Low Conflicts
+    CE-->>Lead: Pass conflict matrix & merged data
+    Lead->>UI: Stream final synthesized report
+    UI-->>User: Render verified Markdown + Citations
+```
 
 ---
 
-# 🚀 Quick Start
+## 🛡️ THREAT MITIGATION & ARCHITECTURAL DEFENSES
 
-## 1. Prerequisites
+Prometheus is engineered to neutralize the 4 critical failure modes inherent in standard Generative AI pipelines:
 
+### 1. Contradiction Blindness
+* **Vulnerability:** Standard RAG pipelines ingest conflicting papers and hallucinate a false, averaged-out consensus.
+* **Defense:** **The Contradiction Engine**. Claims are cross-referenced using Jaccard Similarity to isolate overlapping topics. The LLM then performs side-by-side logical evaluations to explicitly flag scientific disagreements (High/Medium/Low severity) and forces a dedicated "Conflicting Evidence" section in the final report.
+
+### 2. Lexical Precision Loss
+* **Vulnerability:** Dense vector embeddings (ChromaDB) excel at conceptual matching but fail to retrieve exact drug codes or genetic mutations (e.g., `C797S`, `BTX-6654`).
+* **Defense:** **Hybrid Retrieval via RRF**. Parallel querying of a dense Vector Store (ChromaDB) and a sparse Keyword Store (Rank-BM25). Results are mathematically fused using Reciprocal Rank Fusion to ensure zero loss of critical medical nomenclature.
+
+### 3. Hallucination & Evidence Fabrication
+* **Vulnerability:** Monolithic RAG trusts retrieved context blindly, leading to ungrounded generation if search results are poor.
+* **Defense:** **Self-Reflective Corrective RAG (CRAG)**. A dedicated `SelfRAGScorer` agent strictly evaluates the grounding of every extracted claim. Any evidence scoring below `0.65` is rejected, triggering an automatic query rewrite and retry sequence.
+
+### 4. Token Degeneration Loops
+* **Vulnerability:** Tracking academic papers via 64-character SHA-256 hashes traps high-temperature LLMs in predictive hex loops (e.g., infinite `4f4f4f...`).
+* **Defense:** **Structural Truncation & Calibration**. The Data Aggregator truncates 64-character hashes to clean, 8-character short-IDs. Temperature is locked to `0.2` during Phase 3, keeping the 550B synthesizer deterministically focused on Markdown generation.
+
+---
+
+## ⚙️ CORE TECH STACK
+
+| Subsystem | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Primary Intelligence** | `nvidia/nemotron-3-ultra-550b` | Complex MECE Decomposition & Report Synthesis |
+| **Worker Intelligence** | `nvidia/nemotron-3-super-120b` | High-throughput CRAG scoring & data extraction |
+| **Dense Retrieval** | ChromaDB + `all-MiniLM-L6-v2` | Semantic concept matching & embedding storage |
+| **Sparse Retrieval** | Rank-BM25 (`BM25Okapi`) | Exact-match biomedical keyword lookups |
+| **Knowledge Graph** | Neo4j | Citation mapping & relational overlap detection |
+| **Concurrency** | Python `asyncio` | High-speed, rate-limit safe orchestrator |
+| **Dashboard** | Streamlit | Asynchronous real-time token streaming |
+
+---
+
+## 🚀 DEPLOYMENT DIRECTIVES
+
+### Prerequisites
 * Python 3.10+
-* Docker
-* NVIDIA API Key
-* Neo4j Database
+* NVIDIA API Key (Build program)
+* Neo4j instance (Local or AuraDB)
 
----
-
-## 2. Clone Repository
-
+### 1. Initialize Local Environment
 ```bash
 git clone https://github.com/NukaNarendra/Prometheus.git
-cd prometheus
-```
+cd Prometheus
 
----
+python -m venv .venv
+# Activate virtual environment
+source .venv/bin/activate  # Unix/macOS
+.venv\Scripts\activate     # Windows
 
-## 3. Install Dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 4. Configure Environment Variables
-
-Create a `.env` file:
-
+### 2. Configure Environment Secrets
+Create a `.env` file in the project root:
 ```env
-NVIDIA_API_KEY=nvapi-your-key-here
-
-NEO4J_URI=bolt://localhost:7687
-NEO4J_USERNAME=neo4j
-NEO4J_PASSWORD=password
+NVIDIA_API_KEY="your-nvidia-api-key-here"
+NEO4J_URI="bolt://localhost:7687"
+NEO4J_USER="neo4j"
+NEO4J_PASSWORD="your-secure-password"
+PROMETHEUS_MODE="prod"
 ```
 
----
-
-## 5. Start Neo4j
-
-```bash
-docker run \
---name neo4j-prometheus \
--p 7474:7474 \
--p 7687:7687 \
--e NEO4J_AUTH=neo4j/password \
--d neo4j:latest
-```
-
----
-
-## 6. Seed Research Corpus
-
-```bash
-python scripts/seed_corpus.py
-```
-
----
-
-## 7. Launch Dashboard
-
+### 3. Ignite the Pipeline
 ```bash
 streamlit run app/streamlit_app.py
 ```
 
 ---
 
-# 📊 Evaluation & Benchmarking
-
-Prometheus includes a comprehensive benchmarking suite that compares:
-
-* Multi-Agent Prometheus
-* Standard Single-Agent RAG
-
-Evaluation categories:
-
-* Evidence Coverage
-* Citation Accuracy
-* Contradiction Detection
-* Hallucination Reduction
-* Report Completeness
-* Overall Research Quality
-
-Run evaluation:
-
-```bash
-python eval/run_eval.py
-```
-
-Results are stored in:
-
-```text
-eval/results/evaluation_metrics.json
-```
-
-Example output:
-
-```json
-{
-  "multi_agent_score": 9.2,
-  "single_agent_score": 7.1,
-  "coverage_gain": "29.5%",
-  "hallucination_reduction": "41.3%"
-}
-```
-
----
-
-# 📂 Project Structure
-
-```text
-prometheus/
-│
-├── app/
-│   └── streamlit_app.py
-│
-├── data/
-│   ├── corpus/
-│   ├── memory/
-│   └── chroma_db/
-│
-├── eval/
-│   └── run_eval.py
-│
-├── scripts/
-│   └── seed_corpus.py
-│
-├── src/
-│   │
-│   ├── agents/
-│   │   ├── lead_agent.py
-│   │   ├── subagent.py
-│   │   └── orchestrator.py
-│   │
-│   ├── retrieval/
-│   │   ├── hybrid_search.py
-│   │   ├── vector_store.py
-│   │   └── keyword_store.py
-│   │
-│   ├── correction/
-│   │   └── evidence_scorer.py
-│   │
-│   ├── synthesis/
-│   │   ├── contradiction_engine.py
-│   │   ├── neo4j_graph.py
-│   │   └── report_builder.py
-│   │
-│   ├── connectors/
-│   │   └── data_normalizer.py
-│   │
-│   └── config.py
-│
-├── requirements.txt
-├── .env
-├── .gitignore
-└── README.md
-```
-
----
-
-# 🧠 Core Technologies
-
-| Layer            | Technology             |
-| ---------------- | ---------------------- |
-| LLM              | NVIDIA Nemotron        |
-| Framework        | LangChain              |
-| Vector DB        | ChromaDB               |
-| Embeddings       | Sentence Transformers  |
-| Keyword Search   | BM25Okapi              |
-| Graph Database   | Neo4j                  |
-| UI               | Streamlit              |
-| Evaluation       | LLM-as-a-Judge         |
-| Retrieval Fusion | Reciprocal Rank Fusion |
-
----
-
-# 🎯 Future Roadmap
-
-* Multi-modal research (PDFs, images, figures)
-* Agent memory persistence
-* Cross-paper reasoning chains
-* Automated hypothesis generation
-* Scientific knowledge graph expansion
-* Federated document retrieval
-* Research paper drafting assistant
-* Autonomous literature review generation
-
----
-
-# 🤝 Acknowledgements
-
-Prometheus is inspired by cutting-edge developments in:
-
-* Multi-Agent Systems
-* Retrieval-Augmented Generation (RAG)
-* Corrective RAG (CRAG)
-* Self-RAG
-* Knowledge Graph Reasoning
-* Agentic AI Research Workflows
-
-Built using:
-
-* LangChain
-* NVIDIA AI Endpoints
-* Neo4j
-* ChromaDB
-* Sentence Transformers
-* Streamlit
-
----
-
-# 📜 License
-
-MIT License
-
-Copyright (c) 2026
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files to deal in the Software without restriction.
+<div align="center">
+  <i>"Replacing monolithic hallucination with multi-agent verification."</i>
+</div>
